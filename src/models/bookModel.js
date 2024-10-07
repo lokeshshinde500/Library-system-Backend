@@ -32,6 +32,11 @@ const bookSchema = new mongoose.Schema(
       ref: "User",
       default: null,
     },
+    created_by: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

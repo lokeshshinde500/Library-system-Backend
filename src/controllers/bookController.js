@@ -29,6 +29,7 @@ export const createBook = async (req, res) => {
       author,
       bookImage: result.secure_url,
       genre,
+      created_by: req.user.id,
     };
 
     const createBook = await bookModel.create(newBook);
@@ -229,6 +230,29 @@ export const getBorrowedBooks = async (req, res) => {
       return res
         .status(404)
         .json({ message: "No books are borrowed!", success: "false" });
+    }
+
+    return res.status(200).json({ data: books, success: "true" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server error!", success: "false" });
+  }
+};
+
+// user created books
+export const myBooks = async (req, res) => {
+  try {
+    const books = await bookModel.find({created_by: req.user.id,}).populate({
+      path: "borrowedBy",
+      select: "name -_id",
+    });
+
+    if (!books) {
+      return res
+        .status(404)
+        .json({ message: "Books not found!", success: "false" });
     }
 
     return res.status(200).json({ data: books, success: "true" });

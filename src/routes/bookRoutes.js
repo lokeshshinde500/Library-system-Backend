@@ -6,6 +6,7 @@ import {
   getAllBooks,
   getBook,
   getBorrowedBooks,
+  myBooks,
   returnBook,
   updateBook,
 } from "../controllers/bookController.js";
@@ -37,5 +38,8 @@ routes.post("/return/:id", returnBook);
 
 // get list books borrowed by authenticated user
 routes.get("/borrowed/all", getBorrowedBooks);
+
+// user created books
+routes.get("/myBooks/all", myBooks);
 
 export default routes;
